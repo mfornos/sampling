@@ -1,0 +1,21 @@
+{
+  "name": "sampling",
+  "version": "0.5.0",
+  "description": "Library for sampling of random values from a discrete probability distribution, using the Walker-Vose alias method.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "sampling",
+    "distribution",
+    "discrete",
+    "alias method",
+    "Vose"
+  ],
+  "author": "mfornos",
+  "license": "GPL",
+  "devDependencies": {
+    "tape": "^2.10.2"
+  }
+}
