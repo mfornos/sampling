@@ -18,5 +18,6 @@ s.next(); // => random outcome according to specified probabilities
 
 * * * *
 
-[![Build Status](https://travis-ci.org/mfornos/sampling.svg)](https://travis-ci.org/mfornos/sampling)
 Have fun!
+
+[![Build Status](https://travis-ci.org/mfornos/sampling.svg)](https://travis-ci.org/mfornos/sampling)
