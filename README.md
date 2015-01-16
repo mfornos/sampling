@@ -14,3 +14,6 @@ var s = sample([0.5, 0.25, 0.25], [10, 20, 30]);
 s.next(); // => random outcome according to specified probabilities
 ```
 
+* * * *
+
+[![Build Status](https://travis-ci.org/mfornos/sampling.svg)](https://travis-ci.org/mfornos/sampling)
