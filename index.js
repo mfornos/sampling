@@ -9,7 +9,7 @@
  */
 function Sample(probabilities, outcomes) {
   this.alias = [];
-  this.prob = [];
+  this.prob  = [];
   this.outcomes = outcomes || this.indexedOutcomes(probabilities.length);
 
   this.precomputeAlias(probabilities);
@@ -22,15 +22,9 @@ function Sample(probabilities, outcomes) {
  */
 Sample.prototype.next = function () {
   var c = this.randomInt(0, this.prob.length),
-    u = Math.random(); // Random number in [0,1)
+      u = Math.random(); // Random number in [0,1)
 
   return this.outcomes[(u < this.prob[c]) ? c : this.alias[c]];
-}
-
-Sample.prototype.indexedOutcomes = function (n) {
-  var o = [];
-  for (i = 0; i < n; i++) o[i] = i;
-  return o;
 }
 
 /**
@@ -39,11 +33,15 @@ Sample.prototype.indexedOutcomes = function (n) {
  * http://apps.jcns.fz-juelich.de/doku/sc/ransampl
  */
 Sample.prototype.precomputeAlias = function (p) {
-  // Normalize probabilities
-  var n = p.length,
-    sum = 0,
-    P = [];
+  var n   = p.length,
+      sum = 0,
+      nS  = 0,
+      nL  = 0,
+      P   = [],
+      S   = [],
+      L   = [];
 
+  // Normalize probabilities
   for (i = 0; i < n; ++i) {
     if (p[i] < 0) {
       throw 'Probability must be a positive: p[' + i + ']=' + p[i];
@@ -60,10 +58,6 @@ Sample.prototype.precomputeAlias = function (p) {
   }
 
   // Set separate index lists for small and large probabilities:
-  var nS = 0,
-    nL = 0;
-  var S = [],
-    L = [];
   for (i = n - 1; i >= 0; --i) {
     // at variance from Schwarz, we revert the index order
     if (P[i] < 1)
@@ -93,6 +87,12 @@ Sample.prototype.precomputeAlias = function (p) {
   while (nS)
   // can only happen through numeric instability
     this.prob[S[--nS]] = 1;
+}
+
+Sample.prototype.indexedOutcomes = function (n) {
+  var o = [];
+  for (i = 0; i < n; i++) o[i] = i;
+  return o;
 }
 
 Sample.prototype.randomInt = function (min, max) {
