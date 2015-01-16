@@ -15,6 +15,10 @@
   ],
   "author": "mfornos",
   "license": "GPL",
+  "repository": { 
+    "type": "git",
+    "url": "https://github.com/mfornos/sampling.git"
+  },
   "devDependencies": {
     "tape": "^2.10.2"
   }
