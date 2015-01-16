@@ -39,6 +39,21 @@ test('First outcome 0.5', function (t) {
   t.ok(c1 > 440 && c1 < 550, 'Half approx.');
 });
 
+test('String outcome', function (t) {
+  var s = sample([0.85, 0.15], ['A', 'B']),
+      ok = false;
+  
+  t.plan(1);
+
+  for (i = 0; i < 1000; i++) {
+    if(s.next() == 'A') { 
+      ok = true; 
+      break;
+    }
+  }
+  t.ok(ok, 'A is found');
+});
+
 test('Probability cannot be zero', function (t) {
   var e;
 
