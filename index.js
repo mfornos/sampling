@@ -1,4 +1,4 @@
-/*global module */
+/* global module */
 
 /**
  * Library for sampling of random values from a discrete probability distribution, 
@@ -103,7 +103,7 @@ Sample.prototype.precomputeAlias = function (p) {
     this.prob[L[--nL]] = 1;
 
   while (nS)
-  // can only happen through numeric instability
+    // can only happen through numeric instability
     this.prob[S[--nS]] = 1;
 };
 
