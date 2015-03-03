@@ -1,3 +1,5 @@
+/*global module */
+
 /**
  * Library for sampling of random values from a discrete probability distribution, 
  * using the Walker-Vose alias method.
@@ -8,6 +10,8 @@
  * @param {Array} the outcomes. Index is assumed as outcome if not provided.
  */
 function Sample(probabilities, outcomes) {
+  'use strict';
+
   this.alias = [];
   this.prob  = [];
   this.outcomes = outcomes || this.indexedOutcomes(probabilities.length);
@@ -16,16 +20,27 @@ function Sample(probabilities, outcomes) {
 }
 
 /**
- * Samples an outcome from the underlying probability distribution.
+ * Samples outcomes from the underlying probability distribution.
  *
- * @return {Object} a random outcome according to the underlying probability distribution.
+ * @param {int} the number of samples. Optional parameter, defaults to 1.
+ * @return {Object} a random outcome according to the underlying probability distribution 
+ *                  and the requested number of samples. If the requested number of samples 
+ *                  is greater than 1 this method returns an array.
  */
-Sample.prototype.next = function () {
-  var c = this.randomInt(0, this.prob.length),
-      u = Math.random(); // Random number in [0,1)
+Sample.prototype.next = function (numOfSamples) {
+  'use strict';
 
-  return this.outcomes[(u < this.prob[c]) ? c : this.alias[c]];
-}
+  var n   = numOfSamples || 1,
+      out = [],
+      i   = 0;
+
+  do {
+    var c = this.randomInt(0, this.prob.length);
+    out[i] = this.outcomes[(Math.random() < this.prob[c]) ? c : this.alias[c]];
+  } while (++i < n);
+
+  return (n > 1) ? out : out[0];
+};
 
 /**
  * Ported from ransampl.c
@@ -33,13 +48,16 @@ Sample.prototype.next = function () {
  * http://apps.jcns.fz-juelich.de/doku/sc/ransampl
  */
 Sample.prototype.precomputeAlias = function (p) {
+  'use strict';
+
   var n   = p.length,
       sum = 0,
       nS  = 0,
       nL  = 0,
       P   = [],
       S   = [],
-      L   = [];
+      L   = [],
+      g, i, a;
 
   // Normalize probabilities
   for (i = 0; i < n; ++i) {
@@ -49,7 +67,7 @@ Sample.prototype.precomputeAlias = function (p) {
     sum += p[i];
   }
 
-  if (sum == 0) {
+  if (sum === 0) {
     throw 'Probability cannot be zero.';
   }
 
@@ -87,18 +105,24 @@ Sample.prototype.precomputeAlias = function (p) {
   while (nS)
   // can only happen through numeric instability
     this.prob[S[--nS]] = 1;
-}
+};
 
 Sample.prototype.indexedOutcomes = function (n) {
+  'use strict';
+
   var o = [];
-  for (i = 0; i < n; i++) o[i] = i;
+  for (var i = 0; i < n; i++) o[i] = i;
   return o;
-}
+};
 
 Sample.prototype.randomInt = function (min, max) {
+  'use strict';
+
   return Math.floor(Math.random() * (max - min)) + min;
-}
+};
 
 module.exports = function (probabilities, outcomes) {
+  'use strict';
+
   return new Sample(probabilities, outcomes);
-}
+};
